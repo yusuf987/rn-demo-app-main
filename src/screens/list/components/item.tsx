@@ -8,6 +8,8 @@ import {RootStackParamList} from '../../../stack';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {IListItem} from '../index';
 import {Avatar} from '../../../components/avatar';
+import {SCREEN_NAME} from '../../../constants/routes';
+
 
 //
 //
@@ -21,7 +23,7 @@ export const ListItem: React.FC<{item: IListItem}> = ({item}) => {
     >();
 
   return (
-    <ListItemContainer onPress={() => nav.navigate('Itemscreen', item)}>
+    <ListItemContainer onPress={() => nav.navigate(SCREEN_NAME.ITEM_SCREEN, item)}>
       <Avatar
         style={styles.image}
         source={{uri: getImage(thumbnailSize, item.id)}}
