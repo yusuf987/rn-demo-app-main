@@ -1,14 +1,8 @@
-import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
 import ListScreen, {IListItem} from './screens/list';
 import {Item} from './item';
 import {SCREEN_NAME} from './constants/routes';
-
 import {ThemeFont} from './components/typography';
-
-//
-//
 
 export type RootStackParamList = {
   ListScreen: undefined;

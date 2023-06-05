@@ -1,5 +1,5 @@
-import React, {useState,useEffect} from 'react';
-import {Dimensions, ScrollView, Text, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Dimensions, ScrollView} from 'react-native';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import styled from '@emotion/native';
@@ -12,9 +12,9 @@ import {Typography} from './components/typography';
 import {DetailsLine} from './components/details-line';
 import {DetailsTitle} from './components/details-title';
 import {Cart} from './components/cart';
-import { ITEM_IMAGE_SIZE } from "./constants/images";
-import { styles } from "./styles/index";
-import { ItemPrice } from "./components/item-price";
+import {ITEM_IMAGE_SIZE} from './constants/images';
+import {styles} from './styles/index';
+import {ItemPrice} from './components/item-price';
 
 const SPEC_1 = faker.color.human();
 const SPEC_2 = faker.vehicle.vin();
@@ -30,43 +30,43 @@ export const Item = () => {
 
   const [quantity, setQuantity] = useState<number>(5);
 
-  if (!params) {
-    return <Typography>Loading ...</Typography>;
-  }
-
-  useEffect(()=>{
+  useEffect(() => {
     nav.setOptions({
-      title: params.name,
+      title: params?.name,
     });
-  },[])
+  }, [nav, params?.name]);
 
-
-  return (
+  return params ? (
     <React.Fragment>
-      <ScrollView style={{backgroundColor:"#f9f9f9"}}>
-        <Container >
+      <ScrollView style={{backgroundColor: '#f9f9f9'}}>
+        <Container>
           <ItemImage
             source={{uri: getImage(900, params.id)}}
             size={Dimensions.get('screen').width * ITEM_IMAGE_SIZE}
           />
-        
-          <Typography style={[styles.itemHeader,styles.fontLarg]} weight="bold">
+
+          <Typography
+            style={[styles.itemHeader, styles.fontLarg]}
+            weight="bold">
             {params.name}
           </Typography>
 
-          <ItemPrice salePrice={params.salePrice} price={params.price}></ItemPrice>
-          
+          <ItemPrice
+            salePrice={params.salePrice}
+            price={params.price}></ItemPrice>
         </Container>
 
         <Container>
           <Typography>{params.description}</Typography>
         </Container>
 
-        <Container >
+        <Container>
           <DetailsTitle>Details</DetailsTitle>
           <DetailsLine label="Brand">{params.brand}</DetailsLine>
           <DetailsLine label="Color">{SPEC_1}</DetailsLine>
-          <DetailsLine isBold={true} label="SKU">{SPEC_2}</DetailsLine>
+          <DetailsLine isBold={true} label="SKU">
+            {SPEC_2}
+          </DetailsLine>
 
           <DetailsTitle>Specifications</DetailsTitle>
 
@@ -77,6 +77,8 @@ export const Item = () => {
 
       <Cart quantity={quantity} update={setQuantity} />
     </React.Fragment>
+  ) : (
+    <Typography>Loading ...</Typography>
   );
 };
 
@@ -89,6 +91,5 @@ const ItemImage = styled.Image<{size: number}>(props => ({
 }));
 
 Typography.defaultProps = {
-  color:"black"
+  color: 'black',
 };
-
