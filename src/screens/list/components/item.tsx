@@ -1,86 +1,44 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import styled from '@emotion/native';
-import {getImage} from '../../../utils/image';
-import {Typography} from '../../../components/typography';
-import {RootStackParamList} from '../../../stack';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {IListItem} from '../index';
-import {Avatar} from '../../../components/avatar';
-import {SCREEN_NAME} from '../../../constants/routes';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { getImage } from '../../../utils/image';
+import { Typography } from '../../../components/typography';
+import { RootStackParamList } from '../../../stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { IListItem } from '../index';
+import { Avatar } from '../../../components/avatar';
+import { SCREEN_NAME } from '../../../constants/routes';
+import { THUMBNAIL_SIZE } from '../../../constants/images';
+import { styles } from '../../../styles/index';
+import { ItemPrice } from "../../../components/item-price";
 
 
-//
-//
-
-const thumbnailSize = 600;
-
-export const ListItem: React.FC<{item: IListItem}> = ({item}) => {
+export const ListItem: React.FC<{ item: IListItem }> = ({ item }) => {
   const nav =
     useNavigation<
       NativeStackNavigationProp<RootStackParamList, 'ListScreen'>
     >();
 
   return (
-    <ListItemContainer onPress={() => nav.navigate(SCREEN_NAME.ITEM_SCREEN, item)}>
+    <TouchableOpacity style={styles.ListItemContainer} onPress={() => nav.navigate(SCREEN_NAME.ITEM_SCREEN, item)}>
       <Avatar
         style={styles.image}
-        source={{uri: getImage(thumbnailSize, item.id)}}
+        source={{ uri: getImage(THUMBNAIL_SIZE, item.id) }}
       />
 
       <View style={styles.flex}>
-        <Typography weight="medium">{item.name}</Typography>
-        {!item.salePrice ? (
-          <Typography style={item.salePrice ? styles.discounted : undefined}>
-            SAR {item.price}
-          </Typography>
-        ) : null}
+        <Typography style={styles.itemHeader}>{item.name}</Typography>
 
-        {item.salePrice ? (
-          <Typography color="#DA2121">
-            <Typography style={item.salePrice ? styles.discounted : undefined}>
-              SAR {item.price}
-            </Typography>
-            {'  '}SAR {item.salePrice}
-          </Typography>
-        ) : null}
+        <ItemPrice salePrice={item.salePrice} price={item.price} size={16}></ItemPrice>
 
-        <Typography fontSize={14} color="#545454">
+
+        <Typography style={styles.itemBrand}>
           Brand: {item.name}
         </Typography>
       </View>
-    </ListItemContainer>
+    </TouchableOpacity>
   );
 };
 
-//
-//
 
-const ListItemContainer = styled.TouchableOpacity({
-  paddingTop: 10,
-  paddingBottom: 10,
-  paddingHorizontal: 25,
-  borderBottomColor: 'rgba(0,0, 0, 0.05)',
-  borderBottomWidth: 1,
-  flexDirection: 'row',
-});
 
-//
-//
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  image: {
-    marginTop: 8,
-    marginRight: 16,
-  },
-  discounted: {
-    textDecorationLine: 'line-through',
-  },
-  sale: {
-    color: '#DA2121',
-  },
-});
