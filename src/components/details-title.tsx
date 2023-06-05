@@ -10,5 +10,7 @@ export const DetailsTitle = styled(Typography)({
 });
 
 DetailsTitle.defaultProps = {
-  weight: 'medium',
+  weight: 'bold',
+  fontSize:16,
+  color:"black"
 };

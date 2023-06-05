@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {Dimensions, ScrollView, Text, View} from 'react-native';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -12,16 +12,14 @@ import {Typography} from './components/typography';
 import {DetailsLine} from './components/details-line';
 import {DetailsTitle} from './components/details-title';
 import {Cart} from './components/cart';
-
-//
-//
+import { ITEM_IMAGE_SIZE } from "./constants/images";
+import { styles } from "./styles/index";
+import { ItemPrice } from "./components/item-price";
 
 const SPEC_1 = faker.color.human();
 const SPEC_2 = faker.vehicle.vin();
 const SPEC_3 = faker.commerce.product();
 const SPEC_4 = faker.datatype.float({min: 0.1, max: 10, precision: 0.1});
-
-//
 
 export const Item = () => {
   const nav =
@@ -36,51 +34,42 @@ export const Item = () => {
     return <Typography>Loading ...</Typography>;
   }
 
-  nav.setOptions({
-    title: params.name,
-  });
+  useEffect(()=>{
+    nav.setOptions({
+      title: params.name,
+    });
+  },[])
 
-  //
-  //
 
   return (
     <React.Fragment>
-      <ScrollView>
-        <Container>
+      <ScrollView style={{backgroundColor:"#f9f9f9"}}>
+        <Container >
           <ItemImage
             source={{uri: getImage(900, params.id)}}
-            size={Dimensions.get('screen').width * 0.9}
+            size={Dimensions.get('screen').width * ITEM_IMAGE_SIZE}
           />
-        </Container>
-
-        <Container>
-          <Typography fontSize={18} weight="semiBold">
+        
+          <Typography style={[styles.itemHeader,styles.fontLarg]} weight="bold">
             {params.name}
           </Typography>
 
-          {params.salePrice ? (
-            <Typography fontSize={18} color="red">
-              <ItemDiscountedPrice>SAR {params.price}</ItemDiscountedPrice>
-              {'  '}
-              SAR {params.price}
-            </Typography>
-          ) : (
-            <Typography fontSize={18}>SAR {params.price}</Typography>
-          )}
+          <ItemPrice salePrice={params.salePrice} price={params.price}></ItemPrice>
+          
         </Container>
 
         <Container>
           <Typography>{params.description}</Typography>
         </Container>
 
-        <Container>
+        <Container >
           <DetailsTitle>Details</DetailsTitle>
           <DetailsLine label="Brand">{params.brand}</DetailsLine>
           <DetailsLine label="Color">{SPEC_1}</DetailsLine>
-          <DetailsLine label="SKU">{SPEC_2}</DetailsLine>
+          <DetailsLine isBold={true} label="SKU">{SPEC_2}</DetailsLine>
 
-          <Typography weight="medium" />
-          <Typography weight="medium">Specifications</Typography>
+          <DetailsTitle>Specifications</DetailsTitle>
+
           <DetailsLine label="Type">{SPEC_3}</DetailsLine>
           <DetailsLine label="Weight">{SPEC_4} kg</DetailsLine>
         </Container>
@@ -91,9 +80,6 @@ export const Item = () => {
   );
 };
 
-//
-//
-
 const ItemImage = styled.Image<{size: number}>(props => ({
   width: props.size,
   height: props.size,
@@ -102,11 +88,7 @@ const ItemImage = styled.Image<{size: number}>(props => ({
   borderRadius: 9,
 }));
 
-const ItemDiscountedPrice = styled(Typography)({
-  textDecorationLine: 'line-through',
-});
-
-ItemDiscountedPrice.defaultProps = {
-  fontSize: 18,
-  color: 'black',
+Typography.defaultProps = {
+  color:"black"
 };
+
