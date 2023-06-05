@@ -1,9 +1,5 @@
 import {faker} from '@faker-js/faker';
-
 import {IListItem} from '../screens/list';
-
-//
-//
 
 const list_data: IListItem[] = [];
 

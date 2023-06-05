@@ -4,10 +4,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Container} from './container';
 import {CartQuantity} from './cart-quantity';
 import {Typography} from './typography';
-import { Alert } from 'react-native';
-
-//
-//
+import {Alert} from 'react-native';
 
 export const Cart: React.FC<any> = ({quantity, update}) => {
   const insets = useSafeAreaInsets();
