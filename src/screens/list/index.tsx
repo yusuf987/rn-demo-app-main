@@ -16,7 +16,7 @@ export interface IListItem {
 
 const ListScreen = () => {
   return (
-    <SafeAreaView edges={['top', 'bottom']}>
+    <SafeAreaView edges={['bottom', 'left', 'right']} style={{ flex: 1 }}>
       <FlatList
         data={ListData}
         renderItem={({item}) => <ListItem key={item.id} item={item} />}
